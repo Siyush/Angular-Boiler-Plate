@@ -1,0 +1,88 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">perm_identity</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">{{customer.customerName | titlecase}}</h4>
+                    <p>Email : {{customer.email | lowercase}}</p>
+                    <p>Phone : +91 {{customer.phone}}</p>
+                    <p>Address : {{customer.address.addLine1 | titlecase}} , {{customer.address.addLine2 | titlecase}} : {{customer.address.pin}}</p>
+                    <hr>
+                    <p>GST No : {{customer.gstn | uppercase}}</p>
+                    <p>PAN : {{customer.pan | uppercase}}</p>
+                    <hr>
+                    <h4 class="text-center">Sale Details:</h4>
+                    <table class="table">
+                        <tr>
+                            <td class="text-primary">Total Sale &nbsp;&nbsp;</td>
+                            <td>&#8377; {{totalSale}} /-</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-success">Amount Received &nbsp;&nbsp;</td>
+                            <td>&#8377; {{totalReceived}} /-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-danger">Amount Due &nbsp;&nbsp;</td>
+                            <td>&#8377; {{totalSale - totalReceived}} /-</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">perm_identity</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Customer Ledger - <small class="category">This will give you brief inforamtion about Business with <span class="text-primary">{{customer.customerName | titlecase}}</span> </small></h4>
+                    <div class="col-md-6">
+                        <h4 class="text-center text-info">Sale Details</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-primary">
+                                        <th>Invoice No.</th>
+                                        <th>Invoice Date</th>
+                                        <th class="text-center">Billing Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let invoice of invoices">
+                                        <td>{{invoice.invoiceNo}}</td>
+                                        <td>{{invoice.created_at | date:'dd-MM-yyyy'}}</td>
+                                        <td class="text-center">&#8377; {{invoice.billTotal}} /-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-center text-success">Payment Details</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-primary">
+                                        <th>Payment Id.</th>
+                                        <th>Date</th>
+                                        <th class="text-center">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let payment of payments">
+                                        <td>{{payment.id}}</td>
+                                        <td>{{payment.createdAt | date:'dd-MM-yyyy'}}</td>
+                                        <td class="text-center">&#8377; {{payment.amountReceived}} /-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

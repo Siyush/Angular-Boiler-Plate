@@ -1,0 +1,73 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">add_to_photos</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Add Payment</h4>
+                    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit(paymentForm.value)">
+                        <div class="row">
+                            <div class="col-sm-4" style="margin-top:7px;">
+                                <div class="form-group label-floating is-empty">
+                                    <input type="text" class="form-control" formControlName="customerName" name="customerName" list="customerList" data-style="select-with-transition" placeholder="Select customer">
+                                    <datalist id="customerList" data-style="select-with-transition">
+                                                <option *ngFor="let customer of customers">{{customer.customerName}}</option>
+                                            </datalist>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="radio col-sm-4" style="margin-top:30px;">
+                                    <label>
+                                              <input type="radio" checked formControlName="paymentType" name="paymentType" value="Cash">Cash
+                                            </label>
+                                </div>
+                                <div class="radio col-sm-4" style="margin-top:30px;">
+                                    <label>
+                                              <input type="radio"  formControlName="paymentType" name="paymentType" value="Cheque">Cheque
+                                            </label>
+                                </div>
+                                <div class="radio col-sm-4" style="margin-top:30px;">
+                                    <label>
+                                              <input type="radio"  formControlName="paymentType" name="paymentType" value="Bank Transfer">Bank Transfer
+                                            </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">Amount</label>
+                                    <input type="number" class="form-control" formControlName="amountReceived" name="amountReceived" min="0">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group label-floating">
+                                    <input type="hidden" class="form-control" formControlName="paymentDate" name="paymentDate">
+                                    <input type="text" class="form-control" placeholder="Payment Date: {{paymentForm.controls.paymentDate.value | date:'dd-MM-yyyy'}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label"></label>
+                                    <input type="text" class="form-control" value="{{paymentForm.controls.paymentType.value}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">Payment Details</label>
+                                    <input type="text" class="form-control" formControlName="paymentDetails" name="paymentDetails">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <br> {{paymentForm.value | json}} -->
+                        <button type="submit" class="btn btn-fill btn-primary pull-right" [disabled]="!paymentForm.valid">Add Payment</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

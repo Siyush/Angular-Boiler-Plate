@@ -1,0 +1,124 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="purple"> <i class="material-icons">receipt</i>
+            </div>
+            <div class="card-content"> <br>
+                <p class="category">Total Invoice</p><br>
+                <h3 class="card-title">{{noOfInvoices}}</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats"> <i class="material-icons text-danger">warning</i>Number Of Invoices Generated
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="blue"> <i class="material-icons">money</i>
+            </div>
+            <div class="card-content"><br>
+                <p class="category">Total Sale</p><br>
+                <h3 class="card-title">&#8377;. {{totalSale}}</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats"> <i class="material-icons">local_offer</i>Total Sale From {{noOfInvoices}} Orders</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="green"> <i class="material-icons">money</i>
+            </div>
+            <div class="card-content"><br>
+                <p class="category">Received Amt.</p><br>
+                <h3 class="card-title">&#8377;. {{amountReceived}}</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats"> <i class="material-icons text-success">warning</i> &nbsp;Recovery : <span class="text-success">{{(amountReceived / totalSale * 100) | number:'1.1-2'}} % </span>of Total Sale</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="red"> <i class="material-icons">money</i>
+            </div>
+            <div class="card-content"><br>
+                <p class="category">Pending Amt.</p><br>
+                <h3 class="card-title">&#8377;. {{amountPending}}</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats"> <i class="material-icons text-danger">warning</i> &nbsp;Pending : <span class="text-danger">{{((totalSale - amountReceived) / totalSale * 100) | number:'1.1-2'}} %</span> of Total Sale</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="green"> <i class="material-icons">store</i>
+            </div>
+            <div class="card-content">
+                <h4 class="card-title">Latest Invoices</h4>
+                <p class="category">Last 10 Invoices Report</p>
+                <br>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Invoice No.</th>
+                                <th>Company Name</th>
+                                <th>Amount</th>
+                                <th class="text-center">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let latInvoice of latInvoices">
+                                <td class="text-left">{{latInvoice.invoiceNo}}</td>
+                                <td class="text-left">{{latInvoice.customer.customerName | titlecase}}</td>
+                                <td class="text-left">&#8377;. {{latInvoice.billTotal}}</td>
+                                <td class="td-actions text-center">
+                                    <a href="#" class="btn btn-simple btn-warning btn-icon edit" [routerLink]="['../invoice-details/'+latInvoice.id]"><i class="material-icons">dvr</i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="green"> <i class="material-icons">store</i>
+            </div>
+            <div class="card-content">
+                <h4 class="card-title">Latest Payments</h4>
+                <p class="category">Last 10 Payments Report</p>
+                <br>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Payment Id.</th>
+                                <th>Company Name</th>
+                                <th>Amount</th>
+                                <th class="text-center">Txn. Mode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let latPayment of latPayments">
+                                <td class="text-left">{{latPayment.id}}</td>
+                                <td class="text-left">{{latPayment.customerName}}</td>
+                                <td class="text-left">&#8377;. {{latPayment.amountReceived}}</td>
+                                <td class="td-actions text-center">
+                                    {{latPayment.paymentType}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

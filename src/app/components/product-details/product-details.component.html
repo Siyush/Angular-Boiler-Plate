@@ -1,0 +1,71 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">perm_identity</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">{{product.productName | titlecase}}</h4>
+                    <p>Unit Type : {{product.unitType | titlecase}}</p>
+                    <p>Category : {{product.category | titlecase}}</p>
+                    <hr>
+                    <h4 class="text-center">Stock Details:</h4>
+                    <p>Remaining Stock : {{product.stockQuantity}} {{product.unitType | titlecase}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">perm_identity</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Stock Details - <small class="category">This will give you brief information about Total Sale & Purchase of <span class="text-primary">{{product.productName | titlecase}}</span> </small></h4>
+                    <div class="col-md-6">
+                        <h4 class="text-center text-info">Purchase Details</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-primary">
+                                        <th>Order No.</th>
+                                        <th>Date</th>
+                                        <th class="text-center">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let bProduct of bProducts">
+                                        <td>{{bProduct.orderNo}}</td>
+                                        <td>{{bProduct.createdAt | date:'dd-MM-yyyy'}}</td>
+                                        <td class="text-center">{{bProduct.stockQuantity}} {{bProduct.unitType}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-center text-success">Sale Details</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-primary">
+                                        <th>Invoice No.</th>
+                                        <th>Invoice Date</th>
+                                        <th class="text-center">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let sProduct of sProducts">
+                                        <td>{{sProduct.invoiceNo}}</td>
+                                        <td>{{sProduct.invoiceDate | date:'dd-MM-yyyy'}}</td>
+                                        <td class="text-center">{{sProduct.stockQuantity}} {{sProduct.unitType}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-container>

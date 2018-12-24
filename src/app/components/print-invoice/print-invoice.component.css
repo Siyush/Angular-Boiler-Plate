@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.layout-boxed html,
+.layout-boxed body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.invoice {
+    height: 100%;
+    background: #fff;
+    border: 1px solid #f4f4f4;
+    padding: 10px;
+}
+
+.invoice-title {
+    margin-top: 0;
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+    border-bottom: 0;
+    padding: 7px;
+}
+
+.table tr td .progress {
+    margin-top: 5px;
+}
+
+.table-bordered {
+    border: none;
+}
+
+.table-bordered>thead>tr>th,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>tbody>tr>td,
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #f4f4f4;
+    padding: 7px;
+}
+
+.table-bordered>tbody>tr>td {
+    /* background-color: red; */
+    font-size: 12px;
+    height: 30px;
+    border-bottom: solid white !important;
+    border-top: solid white !important;
+    border-width: 0 1px 0 1px !important;
+    border-bottom-style: none;
+}
+
+.table-bordered>tbody>tr:last-child {
+    /* background-color: red; */
+    border-bottom: 1px solid #f4f4f4 !important;
+}
+
+.table-bordered>thead>tr>th,
+.table-bordered>thead>tr>td {
+    border-bottom-width: 2px;
+}
+
+.table.no-border,
+.table.no-border td,
+.table.no-border th {
+    border: 0;
+    height: 30px;
+}
+
+#declaration {
+    border: 1px solid #f4f4f4 !important;
+    background-color: lightgray !important;
+    font-size: 0.9em;
+    margin-left: 2px;
+    padding: 30px;
+}
+
+#companyInfo {
+    border: 1px solid #f4f4f4 !important;
+    background-color: lightgray !important;
+    font-size: 0.8em;
+    padding: 5px;
+    margin: 2px;
+    text-align: center
+}
+
+#billTotal {
+    border: 1px solid #f4f4f4 !important;
+}
+
+
+/* .text-center in tables */
+
+table.text-center,
+table.text-center td,
+table.text-center th {
+    text-align: center;
+}
+
+.table.align th {
+    text-align: left;
+}
+
+.table.align td {
+    text-align: right;
+}

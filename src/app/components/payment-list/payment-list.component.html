@@ -1,0 +1,36 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="purple"><i class="material-icons">assignment</i>
+            </div>
+            <div class="card-content">
+                <h4 class="card-title">Payment List</h4>
+                <div class="material-datatables">
+                    <table #dataTable class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Payment Date</th>
+                                <th>Amount Received</th>
+                                <th>Payment Mode</th>
+                                <th>Payment Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="!isLoading">
+                                <tr *ngFor="let payment of payments">
+                                    <td>{{payment.customerName | titlecase}}</td>
+                                    <td>{{payment.createdAt | date:'dd-MM-yyyy'}}</td>
+                                    <td>{{payment.amountReceived}}</td>
+                                    <td>{{payment.paymentType | uppercase}}</td>
+                                    <td>{{payment.paymentDetails | uppercase}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

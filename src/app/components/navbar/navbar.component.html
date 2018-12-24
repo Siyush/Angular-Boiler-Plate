@@ -1,0 +1,123 @@
+<nav class="navbar navbar-transparent navbar-absolute">
+    <div class="container-fluid">
+        <div class="navbar-minimize">
+            <button id="minimizeSidebar" class="btn btn-round btn-white btn-fill btn-just-icon"> <i class="material-icons visible-on-sidebar-regular">more_vert</i>  <i class="material-icons visible-on-sidebar-mini">view_list</i> 
+          </button>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"> <span class="sr-only">Toggle navigation</span>  <span class="icon-bar"></span>  <span class="icon-bar"></span>  <span class="icon-bar"></span> 
+          </button> <a class="navbar-brand" href="#"> Administration Area </a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" [routerLink]="['dashboard']" class="dropdown-toggle" data-toggle="dropdown"> <i class="material-icons">dashboard</i>
+                        <p class="hidden-lg hidden-md">Dashboard</p> Dashboard
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="material-icons">library_add</i> Add
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" [routerLink]="['add-customer']">Add New Customer</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['add-product']">Add New Product</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['add-invoice']">Create New Invoice</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['add-performa-invoice']">Create New Proforma Invoice</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['add-payment']">Add Payment</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="material-icons">library_books</i> Lists
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" [routerLink]="['customer-list']">Customers List</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['product-list']">Products List</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['invoice-list']">Invoices List</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['performa-invoices']">Proforma Invoice List</a>
+                        </li>
+                        <li><a href="#" [routerLink]="['payment-list']">Payment List</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown"> <i class="material-icons">person</i>
+                        <p class="hidden-lg hidden-md">Profile</p> Profile
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" [routerLink]="['user-setting']">User Setting</a>
+                        </li>
+                        <li><a (click)="logout()">Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a data-toggle="modal" data-target="#noticeModal"> <i class="material-icons">help</i>
+                        <p class="hidden-lg hidden-md">help</p>
+                    </a>
+                </li>
+                <li class="separator hidden-lg hidden-md"></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notice">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i>
+                </button>
+                <h5 class="modal-title" id="myModalLabel">Instructions To Follow</h5>
+            </div>
+            <div class="modal-body">
+                <ol>
+                    <li>
+                        <p>As you logged in you see <span class="text-primary">Dashboard</span> with brief information about invoices & sale details.</p>
+                    </li>
+                    <li>
+                        <p>To proceed first you have to <span class="text-primary"> Add Customer/Client</span> or (Customers / Clients).</p>
+                    </li>
+                    <li>
+                        <p>After adding customers next step is to <span class="text-primary"> Add Product</span> which contains two steps:</p>
+                        <ol type="a">
+                            <li>
+                                <p>First you have to <span class="text-primary"> Add Category</span> for this product.</p>
+                            </li>
+                            <li>
+                                <p>After adding category you can add product.</p>
+                                <ul type=none>
+                                    <li>
+                                        <p><span class="text-danger">*</span>If you are adding to existing product then no need of adding category just select Product Name.</p>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <li>
+                            <p>Now you are ready to make invoices.</p>
+                        </li>
+                        <li>
+                            <p>At Invoice page make sure that you have addded all required things & Enter details for making invoice.</p>
+                        </li>
+                        <li>
+                            <p>After making invoice you will redirected to generated invoice details page.</p>
+                        </li>
+                        <li>
+                            <p>On Invoice details page you see generated invoice & that you can print from here.</p>
+                        </li>
+
+                </ol>
+            </div>
+            <div class="modal-footer text-center">
+
+            </div>
+        </div>
+    </div>
+</div>

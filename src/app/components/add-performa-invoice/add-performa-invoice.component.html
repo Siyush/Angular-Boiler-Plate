@@ -1,0 +1,179 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">person_add</i>
+                </div>
+                <div class="card-content" id="main-card">
+                    <h4 class="card-title">Make Proforma Invoice <br><small class="text-warning text-center">Please Ensure That You Already Have Added Client & Products For This Invoice. If Not <a href="" [routerLink]="['../add-product']">Click Here</a> To Add Products</small></h4>
+                    <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit(invoiceForm.value)">
+                        <div class="row">
+                            <div class="col-xs-3"></div>
+                            <div class="col-xs-3">
+                                <fieldset formGroupName="customer">
+                                    <div class="form-group label-floating is-empty">
+                                        <input type="text" class="form-control" list="customerList" name="customerName" data-style="select-with-transition" formControlName="customerName" placeholder="Select Client">
+                                        <datalist id="customerList" data-style="select-with-transition">
+                                                        <option *ngFor="let customer of customers">{{customer.customerName}}</option>
+                                                </datalist>
+                                    </div>
+                                    <fieldset formGroupName="address">
+                                        <input type="text" formControlName="addLine1" name="addLine1" hidden>
+                                        <input type="text" formControlName="addLine2" name="addLine2" hidden>
+                                        <input type="text" formControlName="pin" name="pin" hidden>
+                                    </fieldset>
+                                    <input type="text" formControlName="email" name="email" hidden>
+                                    <input type="text" formControlName="phone" name="phone" hidden>
+                                    <input type="text" formControlName="gstn" name="gstn" hidden>
+                                    <input type="text" formControlName="pan" name="pan" hidden>
+                                </fieldset>
+                                <a href="#">Add New Client</a>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group label-floating">
+                                    <input type="hidden" class="form-control" name="invoiceDate" formControlName="invoiceDate" placeholder="Invoice Date" disabled>
+                                    <input type="text" class="form-control" value="Invoice Date : {{date | date:'dd-MM-yyyy'}}" disabled>
+                                </div>
+                                <div class="form-group label-floating">
+                                    <input type="hidden" class="form-control" name="dueDate" formControlName="dueDate" placeholder="Due Date" disabled>
+                                    <input type="text" class="form-control" value="Due Date : {{dueDate | date:'dd-MM-yyyy'}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group label-floating">
+                                    <ng-container *ngIf="isInvoiceNo">
+                                        <input type="hidden" class="form-control" name="invoiceNo" formControlName="invoiceNo">
+                                        <input type="text" class="form-control" value="Proforma Invoice Number : #{{inDetails.proformaNo + 1}}" disabled>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Purchase Order Number</label>
+                                    <input type="text" class="form-control" name="pOrderNo" formControlName="pOrderNo">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" formArrayName="products">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="text-primary">
+                                        <th class="text-center">Sr. No.</th>
+                                        <th class="text-center">Product Name</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center">Rate / Unit</th>
+                                        <th class="text-center">HSN</th>
+                                        <th class="text-center">Sub-Total</th>
+                                        <th class="text-center">
+                                            <a class="text-success" (click)="addProductRow()"><i class="material-icons">add_circle</i></a>
+                                        </th>
+                                    </thead>
+                                    <tbody *ngIf="invoiceForm.controls.products!=null">
+                                        <tr *ngFor="let product of invoiceForm.controls.products.controls; let i=index" [formGroupName]="i">
+                                            <td class="text-center">{{i+1}}</td>
+                                            <td>
+                                                <input type="text" class="form-control" id="userIdType" list="productList" formControlName="productName" name="productName" placeholder="Choose Product">
+                                                <datalist id="productList" data-style="select-with-transition">
+                                                            <option *ngFor="let product of products">{{product.productName}}</option>
+                                                        </datalist>
+                                                <input type="text" formControlName="unitType" name="unitType" hidden>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" formControlName="quantity" name="quantity">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" formControlName="rate" name="rate">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="hsn" name="hsn">
+                                            </td>
+                                            <td class="text-primary text-center">
+                                                {{product.get('quantity').value * product.get('rate').value}}
+                                            </td>
+                                            <td class="text-center">
+                                                <a class="text-danger" (click)="removeProductRow(i)"><i class="material-icons">remove_circle</i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-4">
+
+                            </div>
+                            <div class="col-xs-4">
+
+                            </div>
+                            <div class="col-xs-4">
+                                <h5>
+                                    SubTotal: &#8377; {{subTotal}} /-
+                                    <input type="hidden" class="form-control" name="subTotal" formControlName="subTotal"></h5>
+                                <h5>Discount: &#8377; {{discount}} /-</h5>
+                                <div class="row">
+                                    <div class="col-xs-1">
+                                        <div class="checkbox" style="margin-top:17px;">
+                                            <label>
+                                                        <input type="checkbox" name="isDiscountApplied" formControlName="isDiscountApplied">
+                                                    </label>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="invoiceForm.controls.isDiscountApplied.value; else discountTemplate">
+                                        <div class="col-xs-5">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Discount</label>
+                                                <input type="number" class="form-control" name="discount" formControlName="discount">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input type="text" class="form-control" list="discountList" name="discountType" formControlName="discountType" data-style="select-with-transition" placeholder="Select Type">
+                                            <datalist id="discountList" data-style="select-with-transition">
+                                                                <option value="Percent">Percent</option>
+                                                                <option value="Amount">Amount</option>
+                                                            </datalist>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #discountTemplate>
+                                        <div class="col-xs-11">
+                                            <p style="margin-top:20px; margin-left:22px;">To apply Discount Select Check Box</p>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                                <fieldset formArrayName="taxes">
+                                    <div *ngIf="invoiceForm.controls.taxes!=null">
+                                        <h6 *ngFor="let tax of invoiceForm.controls.taxes.controls; let i=index" [formGroupName]="i">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                                    <input type="checkbox" name="isApplied" formControlName="isApplied">
+                                                                </label>{{tax.get('taxName').value}} ({{tax.get('taxRate').value}} %) <span *ngIf="tax.controls.isApplied.value">For &nbsp;( &#8377; {{ partialPayAmount }} /-) : &#8377; {{ partialPayAmount
+                                                                * tax.get('taxRate').value / 100}} /-</span>
+                                                    </div>
+                                                </div>
+                                                <!-- {{tax.get('taxRate').value * subTotal / 100 }} -->
+                                            </div>
+                                        </h6>
+                                    </div>
+                                </fieldset>
+                                <h5>Billing Amount: &#8377; {{billingTotal}} /-</h5>
+                                <!-- <div class="form-group label-floating">
+                                    <label class="control-label">Partial Payment Or Advance</label>
+                                    <input type="hidde" class="form-control" formControlName="partialPayment">
+                                </div> -->
+                                <!-- <h5>Amount Due: &#8377; {{dueAmount}}</h5> -->
+                                <hr>
+                            </div>
+                        </div>
+                        <!-- <br> -->
+                        <!-- <p><strong>Form Value:</strong> {{ invoiceForm.value | json }} </p> -->
+                        <!-- <br> -->
+                        <button type="submit" class="btn btn-fill btn-primary pull-right">Create Invoice</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

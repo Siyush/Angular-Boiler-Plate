@@ -1,0 +1,144 @@
+<div class="invoice">
+    <h4 class="invoice-title text-center"> Invoice #{{invoice.invoiceNo}} </h4>
+    <hr>
+    <div class="row">
+        <div class="col-xs-4">
+            From<br>
+            <strong>Dummy Enterpises.</strong><br> Add Line 1<br> , Kolhapur:410 000<br> dummy@gmail.com
+            <br> +91 9000000000<br>
+            <strong>GSTN: </strong>27AAAAA1111A1AA<br>
+            <strong>PAN: </strong>AAAAA1111A<br>
+        </div>
+        <div class="col-xs-4">
+            Buyer/Consignee<br>
+            <strong>{{invoice.customer.customerName | titlecase}}</strong><br> {{invoice.customer.address.addLine1 | titlecase}}
+            <br> {{invoice.customer.address.addLine2 | titlecase}} - {{invoice.customer.address.pin}} <br> {{invoice.customer.email | lowercase}}
+            <br> +91 {{invoice.customer.phone}}
+            <br>
+            <strong>GSTN: </strong>{{invoice.customer.gstn | uppercase}}<br>
+            <strong>PAN: </strong>{{invoice.customer.pan | uppercase}}<br>
+        </div>
+        <div class="col-xs-4 table-responsive">
+            <table class="table no-border">
+                <tbody>
+                    <tr>
+                        <td> <strong>Invoice No.</strong></td>
+                        <td> #{{invoice.invoiceNo}}</td>
+                    </tr>
+                    <tr>
+                        <td> <strong>Invoice Date:</strong></td>
+                        <td>{{invoice.invoiceDate | date:'dd-MM-yyyy'}}</td>
+                    </tr>
+                    <tr>
+                        <td> <strong>Due Date:</strong></td>
+                        <td>{{invoice.dueDate | date:'dd-MM-yyyy'}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td> <strong>PO Number:</strong></td>
+                        <td>{{invoice.pOrderNo}}</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row" class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><strong><small>Sr.No.</small></strong></th>
+                    <th style="width:40%"><strong><small>Description Of Product</small></strong></th>
+                    <th><strong><small> HSN / SAC</small></strong></th>
+                    <th><strong><small> Quantity</small></strong></th>
+                    <th><strong><small> Rate / Unit </small></strong></th>
+                    <th><strong><small> Subtotal</small></strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of invoice.products; let i=index">
+                    <td class="text-center"> {{i+1}}</td>
+                    <td> <strong> {{product.productName | uppercase}}</strong></td>
+                    <td> {{product.hsn}}</td>
+                    <td> {{product.quantity}} &nbsp; {{product.unitType}}</td>
+                    <td> {{product.rate}}</td>
+                    <td> {{product.quantity * product.rate}}</td>
+                </tr>
+                <tr *ngFor="let emptyRow of emptyRows; let i=index">
+                    <td>{{emptyRow}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div id="declaration"> <strong>Note:</strong> <br> 1. No deductionsof any sort to be made from this bill whatsoever without our written consent <br>2. Interest rate shall be charged on overdue bills. <br>3. Our responsibility for material quality ceases from handover
+                of goods to transporter. <br>4. In event of the certificate furnished / to be furnished by you deaclared invalid bt Tax authorities, we shall recover the differential amount from you.
+            </div>
+        </div>
+        <div class="col-xs-6 table-responsive">
+            <table class="table no-border">
+                <tbody>
+                    <tr>
+                        <td> <strong>SubTotal:</strong></td>
+                        <td>&#8377; {{invoice.subTotal}}</td>
+                    </tr>
+                    <tr *ngIf="invoice.isDiscountApplied">
+                        <td> <strong>Discount:<ng-container *ngIf="invoice.discountType == 'Percent'; else amountTemplate">
+                                        ({{invoice.discount}}%)
+                                    </ng-container>
+                                    <ng-template #amountTemplate>
+                                        (Amount)
+                                    </ng-template>
+                                    </strong></td>
+                        <td>
+                            <ng-container *ngIf="invoice.discountType == 'Percent'; else amountTemplate">
+                                &#8377; {{(invoice.discount * invoice.subTotal) / 100 }}
+                            </ng-container>
+                            <ng-template #amountTemplate>
+                                &#8377; {{invoice.discount}}
+                            </ng-template>
+                        </td>
+                    </tr>
+                    <tr *ngIf="invoice.isDiscountApplied">
+                        <td> <strong>Amount :</strong><small> (After Discount)</small></td>
+                        <td>
+                            <ng-container *ngIf="invoice.discountType == 'Percent'; else amountTemplate">
+                                &#8377; {{invoice.subTotal - ((invoice.discount * invoice.subTotal) / 100) }}
+                            </ng-container>
+                            <ng-template #amountTemplate>
+                                &#8377; {{invoice.subTotal - invoice.discount}}
+                            </ng-template>
+                        </td>
+                    </tr>
+                    <ng-container *ngFor="let tax of invoice.taxes">
+                        <tr *ngIf="tax.isApplied">
+                            <td> <strong>{{tax.taxName}} : ({{tax.taxRate}}%)</strong> For
+                                <ng-container *ngIf="invoice.discountType == 'Percent'; else amountTemplate">
+                                    &#8377; {{invoice.subTotal - ((invoice.discount * invoice.subTotal) / 100) }}
+                                </ng-container>
+                                <ng-template #amountTemplate>
+                                    &#8377; {{invoice.subTotal - invoice.discount}}
+                                </ng-template>
+                            </td>
+                            <td>&#8377; {{tax.taxAmount}}</td>
+                        </tr>
+                    </ng-container>
+                    <tr id="billTotal">
+                        <td> <strong>Billing Total:</strong></td>
+                        <td>&#8377; {{invoice.billTotal}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="companyInfo">
+        <strong> BANK: </strong>THE KOLHAPUR URBAN CO OPERATIVE BANK LTD . <strong> ACCOUNT NO:</strong> 00091101000560 .<strong>IFSC CODE:</strong> HDFC0CKUCBL
+    </div>
+</div>

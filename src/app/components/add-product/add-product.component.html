@@ -1,0 +1,109 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">add_to_photos</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Add Product</h4>
+                    <p class="text-center"><span class="text-warning">If You Are Adding New Product Please Ensure That You Already Have Added Category For This Product. </span> If Not <a href="" data-toggle="modal" data-target="#addCategoryModal">Click Here</a>
+                    </p>
+                    <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm.value);">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group label-floating">
+                                    <div class="radio">
+                                        <label class="col-sm-6">
+                                                    <input type="radio" formControlName="isExisting" name="isExisting" [value]="false">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                      New Product
+                                                 </label>
+                                        <label class="col-sm-6">
+                                                    <input type="radio" formControlName="isExisting" name="isExisting" [value]="true">
+                                                      Existing Product
+                                                </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">Product Name</label>
+                                    <input type="text" class="form-control" formControlName="productName" name="productName" list="productList" data-style="select-with-transition" value>
+                                    <datalist id="productList" data-style="select-with-transition" *ngIf="productForm.controls.isExisting.value">
+                                                    <option *ngFor="let product of products">{{product.productName}}</option>
+                                                </datalist>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group label-floating is-empty">
+                                    <input type="text" class="form-control" *ngIf="productForm.controls.isExisting.value" value="Category : {{productForm.controls.category.value}}" disabled>
+                                    <input type="text" class="form-control" *ngIf="!productForm.controls.isExisting.value" formControlName="category" name="category" list="categoryList" data-style="select-with-transition" placeholder="Select Category">
+                                    <datalist id="categoryList" data-style="select-with-transition">
+                                                <option *ngFor="let category of categories">{{category.categoryName}}</option>
+                                            </datalist>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label" *ngIf="!productForm.controls.isExisting.value">UnitType</label>
+                                    <input type="text" class="form-control" *ngIf="!productForm.controls.isExisting.value" formControlName="unitType" name="unitType" [hidden]="productForm.controls.isExisting.value">
+                                    <input type="text" class="form-control" disabled *ngIf="productForm.controls.isExisting.value" value="UnitType : {{productForm.controls.unitType.value}}">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">Quantity <span *ngIf="productForm.controls.isExisting.value"> Available:  {{stock}} </span></label>
+                                    <input type="number" class="form-control" min="0" formControlName="stockQuantity" name="stockQuantity">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">Order Number</label>
+                                    <input type="text" class="form-control" formControlName="orderNo" name="orderNo">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-fill btn-primary pull-right" [disabled]="!productForm.valid">Add Product</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-small ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-center"><span> Add Category</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i>
+                                </button>
+                    </h4>
+                </div>
+                <div class="modal-body text-center">
+                    <form [formGroup]="categoryForm" (ngSubmit)="onCategorySubmit(categoryForm.value); categoryForm.reset()">
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Category Name</label>
+                            <input type="text" class="form-control" formControlName="categoryName" name="categoryName">
+                        </div>
+                        <button type="submit" class="btn btn-fill btn-primary" [disabled]="!categoryForm.valid">Add Category</button>
+                    </form>
+                    <!-- {{categoryForm.status}} -->
+                </div>
+                <div class="modal-footer text-center">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

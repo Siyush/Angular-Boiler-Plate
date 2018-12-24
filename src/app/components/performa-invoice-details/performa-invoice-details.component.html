@@ -1,0 +1,138 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">person_add</i>
+                </div>
+                <div class="card-content" id="main-card">
+                    <h4 class="card-title text-center"> Invoice : #{{performaInvoice.invoiceNo}}</h4>
+                    <br>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <p>From</p>
+                            <p><strong>Dummy Enterpises.</strong></p>
+                            <p>Add Line 1,</p>
+                            <p>Add Line 2- 410 000</p>
+                            <p><strong>Email: </strong>dummy@gmail.com</p>
+                            <p><strong>Phone: </strong>+91 9000000000</p>
+                            <p><strong>GSTN: </strong>27AAAAA1111A1AA</p>
+                            <p><strong>PAN: </strong>AAAAA1111A</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Buyer/Consignee</p>
+                            <p><strong>{{performaInvoice.customer.customerName | titlecase}}</strong></p>
+                            <p>{{performaInvoice.customer.address.addLine1 | titlecase}}</p>
+                            <p>{{performaInvoice.customer.address.addLine2 | titlecase}} - {{performaInvoice.customer.address.pin | titlecase}} </p>
+                            <p><strong>Email: </strong>{{performaInvoice.customer.email | lowercase}}</p>
+                            <p><strong>Phone: </strong>{{performaInvoice.customer.phone}}</p>
+                            <p><strong>GSTN: </strong>{{performaInvoice.customer.gstn | uppercase}}</p>
+                            <p><strong>PAN: </strong>{{performaInvoice.customer.pan | uppercase}}</p>
+                        </div>
+                        <div class="col-xs-4 table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td> <strong>Invoice No.</strong></td>
+                                        <td> #{{performaInvoice.invoiceNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <strong>Invoice Date:</strong></td>
+                                        <td>{{performaInvoice.invoiceDate | date:'dd-MM-yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <strong>Due Date:</strong></td>
+                                        <td>{{performaInvoice.dueDate | date:'dd-MM-yyyy'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row" class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <th class="text-center">Sr.No.</th>
+                                <th class="text-center">Description Of Product</th>
+                                <th class="text-center">HSN / SAC</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Rate / Unit</th>
+                                <th class="text-center">Subtotal</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of performaInvoice.products; let i=index">
+                                    <td class="text-center">{{i+1}}</td>
+                                    <td class="text-center"> {{product.productName | uppercase}}</td>
+                                    <td class="text-center"> {{product.hsn}}</td>
+                                    <td class="text-center"> {{product.quantity}} - {{product.unitType}}</td>
+                                    <td class="text-center"> {{product.rate}}</td>
+                                    <td class="text-center"> {{product.quantity * product.rate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-8"></div>
+                        <div class="col-xs-4 table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td> <strong>SubTotal:</strong></td>
+                                        <td>&#8377; {{performaInvoice.subTotal}}</td>
+                                    </tr>
+                                    <tr *ngIf="performaInvoice.isDiscountApplied">
+                                        <td> <strong>Discount:<ng-container *ngIf="performaInvoice.discountType == 'Percent'; else amountTemplate">
+                                                    ({{performaInvoice.discount}}%)
+                                                </ng-container>
+                                                <ng-template #amountTemplate>
+                                                    (Amount)
+                                                </ng-template>
+                                                </strong></td>
+                                        <td>
+                                            <ng-container *ngIf="performaInvoice.discountType == 'Percent'; else amountTemplate">
+                                                &#8377; {{(performaInvoice.discount * performaInvoice.subTotal) / 100 }}
+                                            </ng-container>
+                                            <ng-template #amountTemplate>
+                                                &#8377; {{performaInvoice.discount}}
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="performaInvoice.isDiscountApplied">
+                                        <td> <strong>Amount :</strong><small> (After Discount)</small></td>
+                                        <td>
+                                            <ng-container *ngIf="performaInvoice.discountType == 'Percent'; else amountTemplate">
+                                                &#8377; {{performaInvoice.subTotal - ((performaInvoice.discount * performaInvoice.subTotal) / 100) }}
+                                            </ng-container>
+                                            <ng-template #amountTemplate>
+                                                &#8377; {{performaInvoice.subTotal - performaInvoice.discount}}
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                    <ng-container *ngFor="let tax of performaInvoice.taxes">
+                                        <tr *ngIf="tax.isApplied">
+                                            <td> <strong>{{tax.taxName}} : ({{tax.taxRate}}%)</strong> For -
+                                                <ng-container *ngIf="performaInvoice.discountType == 'Percent'; else amountTemplate">
+                                                    &#8377; {{performaInvoice.subTotal - ((performaInvoice.discount * performaInvoice.subTotal) / 100) }}
+                                                </ng-container>
+                                                <ng-template #amountTemplate>
+                                                    &#8377; {{performaInvoice.subTotal - performaInvoice.discount}}
+                                                </ng-template>
+                                            </td>
+                                            <td>&#8377; {{tax.taxAmount}}</td>
+                                        </tr>
+                                    </ng-container>
+                                    <tr>
+                                        <td> <strong>Billing Total:</strong></td>
+                                        <td>&#8377; {{performaInvoice.billTotal}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <a href="" [routerLink]="['../../../print/print-proforma-invoice/'+id]" class="btn btn-primary pull-right" target="_blank">Print Invoice</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

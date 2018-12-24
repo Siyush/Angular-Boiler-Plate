@@ -1,0 +1,81 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<ng-container *ngIf="!isLoading">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="purple"> <i class="material-icons">person_add</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Add New Customer</h4>
+                    <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm.value)">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">Customer Name / Company Name</label>
+                                    <input type="text" class="form-control" formControlName="customerName" name="customerName" value> <span class="help-block text-danger">!!! Please Enter Customer Or Company Name In Standard Format</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Default Email Address</label>
+                                    <input type="text" class="form-control" formControlName="email" name="email" value><span class="help-block text-danger">!!! Please Enter Customer Or Company Email To Display On Invoice</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Default Phone Number</label>
+                                    <input type="text" class="form-control" formControlName="phone" name="phone" value><span class="help-block text-danger">!!! Please Enter Customer Or Company Phone No To Display On Invoice</span>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <fieldset formGroupName="address">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label">Address Line 1</label>
+                                        <input type="text" class="form-control" formControlName="addLine1" name="addLine1" value><span class="help-block text-danger">!!! Please Enter Customer Or Company Address Line 1 Here Only</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Address Line 2</label>
+                                        <input type="text" class="form-control" formControlName="addLine2" name="addLine2" value> <span class="help-block text-danger">!!! Please Enter Customer Or Company Address Line 2 Here Only</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Pin-Code</label>
+                                        <input type="text" class="form-control" formControlName="pin" name="pin" value> <span class="help-block text-danger">!!! Please Enter Customer Or Company Pin-Code Here Only</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">GST Number</label>
+                                    <input type="text" class="form-control" formControlName="gstn" name="gstn" value> <span class="help-block text-danger">!!! Please Enter Customer Or Company GST Number</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">PAN</label>
+                                    <input type="text" class="form-control" formControlName="pan" name="pan" value> <span class="help-block text-danger">!!! Please Enter Customer Or Company PAN</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+
+                            </div>
+                        </div>
+                        <br>
+                        <!-- <p><strong>Form Value:</strong> {{ customerForm.value | json }} </p> -->
+                        <button type="submit" class="btn btn-fill btn-primary pull-right" [disabled]="!customerForm.valid">Add Customer</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
